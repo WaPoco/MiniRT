@@ -13,7 +13,7 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int *) dst = color;
 }
 
-void	create_img(t_data *data, t_complex p, int x, int y)
+void	create_img(t_data *data, t_tuple p, int x, int y)
 {
 	int		color;
 /*
@@ -27,10 +27,28 @@ void	create_img(t_data *data, t_complex p, int x, int y)
 	    color = create_trgb(0, 0, 0, 0);
 	    my_mlx_pixel_put(data, x, y, color);
     }
-*/
-	if ( p.imagpart - p.realpart*p.realpart < 0.01 && -p.imagpart + p.realpart*p.realpart < 0.01)
+
+	double alpha = 0;
+	while ()
 	{
-	    color = create_trgb(0, 0, 250, 0);
-	    my_mlx_pixel_put(data, x, y, color); (R*cos(a), R*sin(a))
+		color = create_trgb(0, 250, 0, 0);
+
 	}
+*/
+	double radius_sphere = 1;
+	t_tuple o_ray = {0, 0, -5, 0};
+	t_tuple orgin = {0, 0, 0, 0};
+	t_tuple *ray = malloc(sizeof(t_tuple));
+	ray->x = 0;
+	ray->y = 0;
+	ray->z = 0;
+	ray->type = 1;
+	
+	vector_diff(ray, p, o_ray);
+	if (int_section(*ray, o_ray, orgin, radius_sphere) > 0)
+	{
+		color = create_trgb(0, 250, 0, 0);
+	    my_mlx_pixel_put(data, x, y, color);
+	}
+	free(ray);
 }

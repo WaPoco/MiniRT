@@ -6,7 +6,7 @@
 /*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 10:30:17 by vpogorel          #+#    #+#             */
-/*   Updated: 2025/11/06 16:56:58 by vpogorel         ###   ########.fr       */
+/*   Updated: 2025/11/09 16:17:23 by vpogorel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,15 @@
 # include "mlx.h"
 # include <stdlib.h>
 # include <stdio.h>
+# include <math.h>
 
-typedef struct s_complex
+typedef struct s_tuple
 {
-	long double	realpart;
-	long double	imagpart;	
-}	t_complex;
+	double	x;
+	double	y;
+	double z;
+	int		type;	
+}	t_tuple;
 
 typedef struct s_data
 {
@@ -34,18 +37,18 @@ typedef struct s_data
 	int			endian;
 	int			win_width;
 	int			win_height;
-	long double	zoom;
-	long double	real_min;
-	long double	real_max;
-	long double	imag_max;
-	long double	imag_min;
-	long double	fixed_x;
-	long double	fixed_y;
+	double	zoom;
+	double	real_min;
+	double	real_max;
+	double	imag_max;
+	double	imag_min;
+	double	fixed_x;
+	double	fixed_y;
 	int			fixated;
 	char		option;
 	int			*t;
 	int			**s;
-	t_complex	c;
+	t_tuple		c;
 }	t_data;
 
 int			create_trgb(int t, int r, int g, int b);
@@ -55,7 +58,18 @@ int			close_window(t_data *data);
 //int			key_press(int key, t_data *data);
 int			create_trgb(int t, int r, int g, int b);
 void		my_mlx_pixel_put(t_data *data, int x, int y, int color);
-void		create_img(t_data *data, t_complex p, int x, int y);
+void		create_img(t_data *data, t_tuple p, int x, int y);
+double		scalar_product(t_tuple a, t_tuple b);
+int  		int_section(t_tuple ray, t_tuple o_ray, t_tuple c_sphere, double r_sphere);
+double 		sq_euclidean_distance(t_tuple a, t_tuple b);
+double		euclidean_distance(t_tuple a, t_tuple b);
+void		vector_add(t_tuple *result, t_tuple a, t_tuple b);
+void		vector_neg(t_tuple *result, t_tuple a);
+void 		vector_diff(t_tuple *result, t_tuple a, t_tuple b);
+void 		vector_reflexion(t_tuple *result, t_tuple ray, t_tuple normal);
+void 		vector_scale(t_tuple *result, t_tuple a, double factor);
+void 		vector_norm(t_tuple *result, t_tuple a);
+
 //int			iteration(t_complex z_0, t_complex c, t_data *data);
 
 #endif

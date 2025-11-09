@@ -3,7 +3,7 @@ CC=cc
 CFLAGS=-Wall -Wextra -Werror
 LFLAGS=-L./minilibx-linux -lmlx -lX11 -lXext -lm
 HEADER=./Include/miniRT.h
-SRCS=src/img.c src/main.c
+SRCS=src/img.c src/main.c src/intersec.c src/vektor_op.c
 OBJS=$(SRCS:.c=.o)
 
 all: Libmlx $(NAME)

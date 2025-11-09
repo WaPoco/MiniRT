@@ -14,7 +14,7 @@ static int	render_next_frame(t_data *data)
 	long double	d[2];
 	int			i;
 	int			k;
-	t_complex	p;
+	t_tuple	p;
 
 	d[0] = (data->real_max - data->real_min) / data->win_width;
 	d[1] = (data->imag_max - data->imag_min) / data->win_height;
@@ -24,8 +24,9 @@ static int	render_next_frame(t_data *data)
 		k = 0;
 		while (k < data->win_height)
 		{
-			p.realpart = data->real_min + d[0] * i;
-			p.imagpart = data->imag_max - d[1] * k;
+			p.x = data->real_min + d[0] * i;
+			p.y = data->imag_max - d[1] * k;
+			p.z = 5;
 			create_img(data, p, i, k);
 			k++;
 		}
