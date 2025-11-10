@@ -1,3 +1,3 @@
 # MiniRT
 
-This project is about the Ray Tracer algorithmen.
+This project is about the Ray Tracer algorithm.
