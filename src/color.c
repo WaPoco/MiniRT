@@ -9,10 +9,17 @@ L   position of light
 N   normale of the surface
 R   direction of the reflected light (use vector_ref())
 V   position of viewer
-I   Intensity if light
+I   Intensity of light
 n   shininess
 
 I = I*k_amb +I*k_diffuse L*N +I*k_specular * (R * V)^n
 
 color_eff = color*I 
 */
+void    lighting(t_tuple p_light, t_tuple point, t_tuple eyev, t_tuple normalv)
+{
+    double color;
+
+    color = 250;
+    
+}

@@ -6,7 +6,7 @@
 /*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 10:30:17 by vpogorel          #+#    #+#             */
-/*   Updated: 2025/11/09 16:17:23 by vpogorel         ###   ########.fr       */
+/*   Updated: 2025/11/10 19:11:25 by vpogorel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ typedef struct s_tuple
 {
 	double	x;
 	double	y;
-	double z;
+	double  z;
 	int		type;	
 }	t_tuple;
 
@@ -60,7 +60,7 @@ int			create_trgb(int t, int r, int g, int b);
 void		my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void		create_img(t_data *data, t_tuple p, int x, int y);
 double		scalar_product(t_tuple a, t_tuple b);
-int  		int_section(t_tuple ray, t_tuple o_ray, t_tuple c_sphere, double r_sphere);
+t_tuple  	*int_section(t_tuple ray, t_tuple o_ray, t_tuple c_sphere, double r_sphere);
 double 		sq_euclidean_distance(t_tuple a, t_tuple b);
 double		euclidean_distance(t_tuple a, t_tuple b);
 void		vector_add(t_tuple *result, t_tuple a, t_tuple b);
@@ -69,6 +69,7 @@ void 		vector_diff(t_tuple *result, t_tuple a, t_tuple b);
 void 		vector_reflexion(t_tuple *result, t_tuple ray, t_tuple normal);
 void 		vector_scale(t_tuple *result, t_tuple a, double factor);
 void 		vector_norm(t_tuple *result, t_tuple a);
+void    	get_points(t_tuple *P, t_tuple ray, t_tuple o_ray, double d[]);
 
 //int			iteration(t_complex z_0, t_complex c, t_data *data);
 

@@ -35,7 +35,7 @@ void	create_img(t_data *data, t_tuple p, int x, int y)
 
 	}
 */
-	double radius_sphere = 1;
+	double radius_sphere = 0.1;
 	t_tuple o_ray = {0, 0, -5, 0};
 	t_tuple orgin = {0, 0, 0, 0};
 	t_tuple *ray = malloc(sizeof(t_tuple));
@@ -45,8 +45,10 @@ void	create_img(t_data *data, t_tuple p, int x, int y)
 	ray->type = 1;
 	
 	vector_diff(ray, p, o_ray);
-	if (int_section(*ray, o_ray, orgin, radius_sphere) > 0)
+	t_tuple *r_points = int_section(*ray, o_ray, orgin, radius_sphere);
+	if (r_points[0].x != 0 && r_points[0].y != 0 && r_points[0].z != 0)
 	{
+		//vector_reflexion()
 		color = create_trgb(0, 250, 0, 0);
 	    my_mlx_pixel_put(data, x, y, color);
 	}
