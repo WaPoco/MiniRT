@@ -16,10 +16,30 @@ I = I*k_amb +I*k_diffuse L*N +I*k_specular * (R * V)^n
 
 color_eff = color*I 
 */
-void    lighting(t_tuple p_light, t_tuple point, t_tuple eyev, t_tuple normalv)
+double    lighting(t_tuple p_light, t_tuple point, t_tuple eyev, t_tuple normalv)
 {
-    double color;
+    double color = 250;
+    double color_eff;
+    double Intensity;
+    double ambient = 0.1;
+    double diffuse = 0.1;
+    double specular = 0.1;
+    double shininess = 10; 
+    t_tuple *L = malloc(sizeof(t_tuple));
+    t_tuple *normal = malloc(sizeof(t_tuple));
+    t_tuple *R = malloc(sizeof(t_tuple));
+    t_tuple *V = malloc(sizeof(t_tuple));
 
-    color = 250;
-    
+
+    vector_diff(L, p_light, point); 
+    vector_norm(L, L);
+    vector_norm(normal, normalv);
+    vector_reflexion(R, L, normal);
+    vector_norm(R, R);
+    vector_diff(V, eyev, point); 
+    vector_norm(V, V);
+    diffuse = color * diffuse * scalar_product(*L, *N);
+    specular = color * specular * pow(scalar_product(*R, *V), shininess);
+    ambient = color * ambient;
+    return (color);
 }
