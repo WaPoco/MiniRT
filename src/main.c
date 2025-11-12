@@ -26,7 +26,8 @@ static int	render_next_frame(t_data *data)
 		{
 			p.x = data->real_min + d[0] * i;
 			p.y = data->imag_max - d[1] * k;
-			p.z = 5;
+			p.z = 10;
+			p.type = 1;
 			create_img(data, p, i, k);
 			k++;
 		}
@@ -74,10 +75,10 @@ int	main(int args0, char **args)
 	//show_options(&data, args0, args);
 	data.win_height = 750;
 	data.win_width = 750;
-	data.real_min = -4;
-	data.real_max = 4;
-	data.imag_max = 4;
-	data.imag_min = -4;
+	data.real_min = -5;
+	data.real_max = 5;
+	data.imag_max = 5;
+	data.imag_min = -5;
 	data.zoom = 1;
 	//data.t = style(&data);
 	data.fixated = 0;

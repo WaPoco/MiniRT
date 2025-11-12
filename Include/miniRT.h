@@ -6,7 +6,7 @@
 /*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 10:30:17 by vpogorel          #+#    #+#             */
-/*   Updated: 2025/11/10 19:11:25 by vpogorel         ###   ########.fr       */
+/*   Updated: 2025/11/12 12:32:15 by vpogorel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void 		vector_reflexion(t_tuple *result, t_tuple ray, t_tuple normal);
 void 		vector_scale(t_tuple *result, t_tuple a, double factor);
 void 		vector_norm(t_tuple *result, t_tuple a);
 void    	get_points(t_tuple *P, t_tuple ray, t_tuple o_ray, double d[]);
+double    	lighting(t_tuple ray, t_tuple p_light, t_tuple point, t_tuple p_eye, t_tuple normalv);
 
 //int			iteration(t_complex z_0, t_complex c, t_data *data);
 
