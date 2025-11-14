@@ -6,7 +6,7 @@
 /*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 10:30:17 by vpogorel          #+#    #+#             */
-/*   Updated: 2025/11/12 12:32:15 by vpogorel         ###   ########.fr       */
+/*   Updated: 2025/11/13 19:58:27 by vpogorel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,11 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <math.h>
+
+typedef struct s_color
+{
+    double r, g, b;
+}	t_color;
 
 typedef struct s_tuple
 {
