@@ -52,10 +52,10 @@ double    lighting(t_tuple ray, t_tuple p_light, t_tuple point, t_tuple p_eye, t
 {
     (void)ray;
     double Intensity = 1.0;
-    double k_ambient = 0.4;
-    double k_diffuse = 1;
+    double k_ambient = 0.1;
+    double k_diffuse = 0.9;
     double k_specular = 0.9;
-    double shininess = 2000.0;
+    double shininess = 20000.0;
 
     double scalar_p1;
     double scalar_p2;
@@ -64,7 +64,7 @@ double    lighting(t_tuple ray, t_tuple p_light, t_tuple point, t_tuple p_eye, t
     t_tuple *R = malloc(sizeof(t_tuple));
     t_tuple *V = malloc(sizeof(t_tuple));
 
-    t_color base_color = create_color(1, 0.5, 0.3);
+    t_color base_color = create_color(1.0, 0.4, 1.0);
     vector_diff(L, p_light, point); 
     vector_norm(L, *L);
     vector_norm(normal, normalv);

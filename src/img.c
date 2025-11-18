@@ -37,9 +37,9 @@ void	create_img(t_data *data, t_tuple p, int x, int y)
 */
 	double radius_sphere = 1;
 	t_tuple o_ray = {0, 0, -10, 0};
-	t_tuple p_light = {-100, 100, -10, 0};
+	t_tuple p_light = {-10, 10, -10, 0};
 	t_tuple orgin = {0, 0, 0, 0};
-	t_tuple p_eye = {0, 0, 0, 0};
+	t_tuple p_eye = {10, 10, 0, 0};
 	t_tuple *ray = malloc(sizeof(t_tuple));
 	ray->x = 0;
 	ray->y = 0;
@@ -57,4 +57,5 @@ void	create_img(t_data *data, t_tuple p, int x, int y)
 	    my_mlx_pixel_put(data, x, y, color);
 	}
 	free(ray);
+	free(r_points);
 }

@@ -6,7 +6,7 @@
 /*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 10:30:17 by vpogorel          #+#    #+#             */
-/*   Updated: 2025/11/13 19:58:27 by vpogorel         ###   ########.fr       */
+/*   Updated: 2025/11/18 21:21:41 by vpogorel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,22 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <math.h>
+
+typedef struct a_camera
+{
+	double	vsize;
+	double	hsize;
+	double	field_of_view;
+	double	pixel_size;
+	double	aspect;
+	t_tuple	**transform;
+}	t_camera;
+
+typedef struct s_ray
+{
+	t_tuple origin;
+	t_tuple direction;
+}	t_ray;
 
 typedef struct s_color
 {
@@ -76,6 +92,7 @@ void 		vector_scale(t_tuple *result, t_tuple a, double factor);
 void 		vector_norm(t_tuple *result, t_tuple a);
 void    	get_points(t_tuple *P, t_tuple ray, t_tuple o_ray, double d[]);
 double    	lighting(t_tuple ray, t_tuple p_light, t_tuple point, t_tuple p_eye, t_tuple normalv);
+void    	ajust_camera(t_camera *camera);
 
 //int			iteration(t_complex z_0, t_complex c, t_data *data);
 

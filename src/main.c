@@ -15,17 +15,23 @@ static int	render_next_frame(t_data *data)
 	int			i;
 	int			k;
 	t_tuple	p;
+	t_camera camera;
+	//d[0] = (data->real_max - data->real_min) / data->win_width;
+	//d[1] = (data->imag_max - data->imag_min) / data->win_height;
 
-	d[0] = (data->real_max - data->real_min) / data->win_width;
-	d[1] = (data->imag_max - data->imag_min) / data->win_height;
 	i = 0;
+	camera.hsize = data->win_width;
+	camera.vsize = data->win_height;
+	camera.field_of_view = 3.1415 / 2.0;
+	camera.aspect = camera.hsize / camera.vsize;
+	ajust_camera(&camera);
 	while (i < data->win_width)
 	{
 		k = 0;
 		while (k < data->win_height)
 		{
-			p.x = data->real_min + d[0] * i;
-			p.y = data->imag_max - d[1] * k;
+			p.x = data->real_min + camera.pixel_size * i;
+			p.y = data->imag_max - camera.pixel_size * k;
 			p.z = 10;
 			p.type = 1;
 			create_img(data, p, i, k);
