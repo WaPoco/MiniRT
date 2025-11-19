@@ -6,7 +6,7 @@
 /*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 10:30:17 by vpogorel          #+#    #+#             */
-/*   Updated: 2025/11/18 21:21:41 by vpogorel         ###   ########.fr       */
+/*   Updated: 2025/11/19 11:22:46 by vpogorel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,11 @@ typedef struct a_camera
 	double	hsize;
 	double	field_of_view;
 	double	pixel_size;
+	double	half_width;
+	double	half_height;
 	double	aspect;
-	t_tuple	**transform;
+	double	**transform;
 }	t_camera;
-
-typedef struct s_ray
-{
-	t_tuple origin;
-	t_tuple direction;
-}	t_ray;
 
 typedef struct s_color
 {
@@ -46,6 +42,12 @@ typedef struct s_tuple
 	double  z;
 	int		type;	
 }	t_tuple;
+
+typedef struct s_ray
+{
+	t_tuple origin;
+	t_tuple direction;
+}	t_ray;
 
 typedef struct s_data
 {
@@ -79,7 +81,7 @@ int			close_window(t_data *data);
 //int			key_press(int key, t_data *data);
 int			create_trgb(int t, int r, int g, int b);
 void		my_mlx_pixel_put(t_data *data, int x, int y, int color);
-void		create_img(t_data *data, t_tuple p, int x, int y);
+void		create_img(t_data *data, t_ray ray, int x, int y);
 double		scalar_product(t_tuple a, t_tuple b);
 t_tuple  	*int_section(t_tuple ray, t_tuple o_ray, t_tuple c_sphere, double r_sphere);
 double 		sq_euclidean_distance(t_tuple a, t_tuple b);
@@ -93,7 +95,9 @@ void 		vector_norm(t_tuple *result, t_tuple a);
 void    	get_points(t_tuple *P, t_tuple ray, t_tuple o_ray, double d[]);
 double    	lighting(t_tuple ray, t_tuple p_light, t_tuple point, t_tuple p_eye, t_tuple normalv);
 void    	ajust_camera(t_camera *camera);
-
+t_ray		ray_for_pixel(t_camera camera, int px, int py);
+t_tuple		create_tuple(double x, double y, double z);
+t_tuple		matrix_mult(double **matrix, t_tuple point);
 //int			iteration(t_complex z_0, t_complex c, t_data *data);
 
 #endif

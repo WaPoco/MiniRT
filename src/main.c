@@ -16,6 +16,7 @@ static int	render_next_frame(t_data *data)
 	int			k;
 	t_tuple	p;
 	t_camera camera;
+	t_ray	ray;
 	//d[0] = (data->real_max - data->real_min) / data->win_width;
 	//d[1] = (data->imag_max - data->imag_min) / data->win_height;
 
@@ -30,11 +31,13 @@ static int	render_next_frame(t_data *data)
 		k = 0;
 		while (k < data->win_height)
 		{
-			p.x = data->real_min + camera.pixel_size * i;
+/*			p.x = data->real_min + camera.pixel_size * i;
 			p.y = data->imag_max - camera.pixel_size * k;
-			p.z = 10;
+			p.z = -1;
 			p.type = 1;
-			create_img(data, p, i, k);
+*/
+			ray = ray_for_pixel(camera, i, k);
+			create_img(data, ray, i, k);
 			k++;
 		}
 		i++;

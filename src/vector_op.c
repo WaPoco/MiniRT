@@ -70,3 +70,14 @@ void vector_reflexion(t_tuple *result, t_tuple ray, t_tuple normal)
     vector_scale(scale_result, normal, distance_mirror_plane);
     vector_diff(result, ray, *scale_result);
 }
+
+t_tuple create_tuple(double x, double y, double z)
+{
+    t_tuple tuple;
+
+    tuple.x = x;
+    tuple.y = y;
+    tuple.z = z;
+    return tuple;
+}
+
