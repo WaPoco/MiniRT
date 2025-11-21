@@ -6,7 +6,7 @@
 /*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 10:30:17 by vpogorel          #+#    #+#             */
-/*   Updated: 2025/11/19 11:22:46 by vpogorel         ###   ########.fr       */
+/*   Updated: 2025/11/21 19:53:56 by vpogorel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,12 @@ void    	ajust_camera(t_camera *camera);
 t_ray		ray_for_pixel(t_camera camera, int px, int py);
 t_tuple		create_tuple(double x, double y, double z);
 t_tuple		matrix_mult(double **matrix, t_tuple point);
+double		**transpose(double **matrix, int size);
+double		**inverse_matrix(double **matrix);
+double		**extract_adj(int i, int j, double **matrix);
+double		det_adj(int i, int j, double **matrix);
+double		det_4x4(double **matrix);
+double		**scalar_product_matrix(double **matrix, double scalar);
 //int			iteration(t_complex z_0, t_complex c, t_data *data);
 
 #endif

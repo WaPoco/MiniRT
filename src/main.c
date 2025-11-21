@@ -11,10 +11,10 @@ int	close_window(t_data *data)
 
 static int	render_next_frame(t_data *data)
 {
-	long double	d[2];
+	//long double	d[2];
 	int			i;
 	int			k;
-	t_tuple	p;
+	//t_tuple	p;
 	t_camera camera;
 	t_ray	ray;
 	//d[0] = (data->real_max - data->real_min) / data->win_width;
