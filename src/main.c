@@ -82,8 +82,8 @@ int	main(int args0, char **args)
     (void)args;
 	//error_init_style(&data);
 	//show_options(&data, args0, args);
-	data.win_height = 750;
-	data.win_width = 750;
+	data.win_height = 300;
+	data.win_width = 300;
 	data.real_min = -5;
 	data.real_max = 5;
 	data.imag_max = 5;

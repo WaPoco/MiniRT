@@ -78,6 +78,16 @@ t_tuple create_tuple(double x, double y, double z)
     tuple.x = x;
     tuple.y = y;
     tuple.z = z;
+    tuple.type = 1; // default to vector
     return tuple;
 }
 
+t_tuple cross_product(t_tuple a, t_tuple b)
+{
+    t_tuple result;
+
+    result.x = a.y * b.z - a.z * b.y;
+    result.y = a.z * b.x - a.x * b.z;
+    result.z = a.x * b.y - a.y * b.x;
+    return result;
+}

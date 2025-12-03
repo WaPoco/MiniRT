@@ -1,6 +1,30 @@
 #include "../Include/miniRT.h"
+t_tuple   *int_section_plane(t_ray ray, t_plane plane)
+{
+    //double result = 0;
+    double d[2] = {0, 0};
+    //t_tuple  origin = {0,0,0,0};
+    t_tuple *P = malloc(sizeof(t_tuple) * 2);
+    P[0].x = 0, P[0].y = 0, P[0].z = 0;
+    P[1].x = 0, P[1].y = 0, P[1].z = 0;
+    double denom = scalar_product(plane.normal, ray.direction);
+    if (fabs(denom) > 1e-6)
+    {
+        t_tuple p_to_o;
+        vector_diff(&p_to_o, plane.point, ray.origin);
+        double t = scalar_product(p_to_o, plane.normal) / denom;
+        // print denom and t for debugging
+        //printf("Denom: %f, t: %f\n", denom, t);
+        if (t >= 0)
+        {
+            d[0] = t;
+            get_points(P, ray.direction, ray.origin, d);
+        }
+    }
+    return P;
+}
 
-t_tuple *int_section(t_tuple ray, t_tuple o_ray, t_tuple c_sphere, double r_sphere)
+t_tuple *int_section_sphere(t_tuple ray, t_tuple o_ray, t_tuple c_sphere, double r_sphere)
 {
     double result = 0;
     double d[2] = {0, 0};
@@ -43,7 +67,7 @@ void    get_points(t_tuple *P, t_tuple ray, t_tuple o_ray, double d[])
     t_tuple result;
     int     i = 0;
 
-    while (i < 2)
+    while (i < 2 && d[i] > 0)
     {
         vector_scale(&scale_vec, ray, d[i]);
         vector_add(&result, o_ray, scale_vec);

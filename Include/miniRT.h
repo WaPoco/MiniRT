@@ -6,7 +6,7 @@
 /*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 10:30:17 by vpogorel          #+#    #+#             */
-/*   Updated: 2025/11/21 19:53:56 by vpogorel         ###   ########.fr       */
+/*   Updated: 2025/12/03 22:18:56 by vpogorel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <math.h>
+
 
 typedef struct a_camera
 {
@@ -42,6 +43,20 @@ typedef struct s_tuple
 	double  z;
 	int		type;	
 }	t_tuple;
+
+typedef struct sphere
+{
+	t_tuple center;
+	t_color color;
+	double  radius;
+}   t_sphere;
+
+typedef struct plane
+{
+	t_tuple point;
+	t_tuple normal;
+	t_color color;
+}   t_plane;
 
 typedef struct s_ray
 {
@@ -83,7 +98,8 @@ int			create_trgb(int t, int r, int g, int b);
 void		my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void		create_img(t_data *data, t_ray ray, int x, int y);
 double		scalar_product(t_tuple a, t_tuple b);
-t_tuple  	*int_section(t_tuple ray, t_tuple o_ray, t_tuple c_sphere, double r_sphere);
+t_tuple  	*int_section_sphere(t_tuple ray, t_tuple o_ray, t_tuple c_sphere, double r_sphere);
+t_tuple   	*int_section_plane(t_ray ray, t_plane plane);
 double 		sq_euclidean_distance(t_tuple a, t_tuple b);
 double		euclidean_distance(t_tuple a, t_tuple b);
 void		vector_add(t_tuple *result, t_tuple a, t_tuple b);
@@ -104,6 +120,17 @@ double		**extract_adj(int i, int j, double **matrix);
 double		det_adj(int i, int j, double **matrix);
 double		det_4x4(double **matrix);
 double		**scalar_product_matrix(double **matrix, double scalar);
+t_tuple		cross_product(t_tuple a, t_tuple b);
+t_color		create_color(double r, double g, double b);
+t_color		color_add(t_color a, t_color b);
+t_color		color_scale(t_color c, double factor);
+int			color_to_trgb(t_color c);
+double		clamp(double x);
+double		**allocate_4x4_matrix();
+double		**translation_matrix(double x, double y, double z);
+double		**matrix_mult_4x4(double **a, double **b);
+double		**view_transform(t_tuple from, t_tuple to, t_tuple up);
+void		free_4x4_matrix(double **matrix);
 //int			iteration(t_complex z_0, t_complex c, t_data *data);
 
 #endif
