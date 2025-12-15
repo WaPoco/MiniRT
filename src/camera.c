@@ -108,8 +108,8 @@ void    ajust_camera(t_camera *camera)
         camera->half_height = half_view;
     }
     camera->pixel_size = (camera->half_width * 2) / camera->hsize;
-    t_tuple from = create_tuple(0, 10, -10);
-    t_tuple to = create_tuple(0, 1, -1);
+    t_tuple from = create_tuple(8, 8, 8);
+    t_tuple to = create_tuple(1, 1, 1);
     t_tuple up = create_tuple(0, 1, 0);
     camera->transform = view_transform(from, to, up);
     // print the camera transform matrix for debugging

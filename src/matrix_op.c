@@ -1,128 +1,141 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   matrix_op.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/10 21:55:56 by vpogorel          #+#    #+#             */
+/*   Updated: 2025/12/15 21:04:27 by vpogorel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../Include/miniRT.h"
 
-t_tuple    matrix_mult(double **matrix, t_tuple point)
+t_tuple	matrix_mult(double **matrix, t_tuple point)
 {
-    // To be implemented
-    double result[4] = {0, 0, 0, 0};
-    int i = 0;
-    // calculate matrix multiplication with tuple type here
-    while (i < 4)
-    {
-        result[i] = matrix[i][0] * point.x +
-                    matrix[i][1] * point.y +
-                    matrix[i][2] * point.z +
-                    matrix[i][3] * point.type;
-        i++;
-    }
-    return (create_tuple(result[0], result[1], result[2])); 
+	double	result[4];
+	int		i;
+
+	i = 0;
+	result[0] = 0;
+	result[1] = 0;
+	result[2] = 0;
+	result[3] = 0;
+	while (i < 4)
+	{
+		result[i] = matrix[i][0] * point.x + matrix[i][1] * point.y
+			+ matrix[i][2] * point.z + matrix[i][3] * point.type;
+		i++;
+	}
+	return (create_tuple(result[0], result[1], result[2]));
 }
 
-double **matrix_mult_4x4(double **a, double **b)
+double	**matrix_mult_4x4(double **a, double **b)
 {
-    int size = 4;
-    int i, j, k;
-    double **result = malloc(size * sizeof(double *));
-    i = 0;
-    while (i<size)
-    {
-        result[i] = malloc(size * sizeof(double));
-        j = 0;
-        while (j<size)
+	int		size;
+	int		i[3];
+	double	**result;
+
+	result = malloc(size * sizeof(double *));
+	if (!result)
+		return (NULL);
+	i[0] = -1;
+	size = 4;
+	while (++i[0] < size)
+	{
+		result[i[0]] = malloc(size * sizeof(double));
+		if (!result[i[0]])
+			return (NULL);
+		i[1] = -1;
+		while (++i[1] < size)
+		{
+			result[i[0]][i[1]] = 0;
+			i[2] = -1;
+			while (++i[2] < size)
+				result[i[0]][i[1]] += a[i[0]][i[2]] * b[i[2]][i[1]];
+		}
+	}
+	return (result);
+}
+
+void	free_4x4_matrix(double **matrix)
+{
+	int	i;
+
+	i = 0;
+	while (i < 4)
+	{
+		if (matrix[i])
+			free(matrix[i]);
+		i++;
+	}
+	if (matrix)
+		free(matrix);
+}
+
+double	**transpose(double **matrix, int size)
+{
+	int		i;
+	int		j;
+	double	**transposed;
+
+	transposed = malloc(size * sizeof(double *));
+	if (!transposed)
+		return (NULL);
+	i = 0;
+	while (i < size)
+	{
+		transposed[i] = malloc(size * sizeof(double));
+		if (!transposed[i])
+			return (free_4x4_matrix(transposed), NULL);
+		j = 0;
+		while (j < size)
+		{
+			transposed[i][j] = matrix[j][i];
+			j++;
+		}
+		i++;
+	}
+	return (transposed);
+}
+
+double	**inverse_matrix(double **matrix)
+{
+	int		size;
+	int		i;
+	int		j;
+	double	**inv_t;
+	double	**inverse;
+	double	*inv;
+
+	size = 4;
+	i = 0;
+	inv = malloc(size * sizeof(double *));
+	if (!inv)
+		return (NULL);
+	while (i < size)
+	{
+		inv[i] = malloc(size * sizeof(double));
+		if (!inv[i])
+			return (NULL);
+		j = 0;
+		while (j < size)
         {
-            result[i][j] = 0;
-            k = 0;
-            while (k<size)
-            {
-                result[i][j] += a[i][k] * b[k][j];
-                k++;
-            }
+			inv[i][j] = pow(-1, j + i) * det_adj(i, j, matrix);
             j++;
         }
         i++;
     }
-    return (result);
-}
-
-void    free_4x4_matrix(double **matrix)
-{
-    int i = 0;
-    while (i<4)
-    {
-        free(matrix[i]);
-        i++;
-    }
-    free(matrix);
-}
-
-double		**transpose(double **matrix, int size)
-{
-    int i, j;
-    double **transposed = malloc(size * sizeof(double *));
-    i = 0;
-    while (i<size)
-    {
-        transposed[i] = malloc(size * sizeof(double));
-        j = 0;
-        while (j<size)
-        {
-            transposed[i][j] = matrix[j][i];
-            j++;
-        }
-        i++;
-    }
-    return (transposed);    
-}
-double **inverse_matrix(double **matrix)
-{
-    int size = 4;
-    int i = 0, j = 0;
-    double **inv_t;
-    double **inverse;
-    double **inv = malloc(size * sizeof(double *));
-    // implement matrix inversion, but recursively(Laplacescher Entwicklungssatz) for 4x4 matrices
-    while (i<size)
-    {
-        inv[i] = malloc(size * sizeof(double));
-        j = 0;
-        while (j<size)
-        {
-            inv[i][j] = pow(-1, j + i) * det_adj(i, j, matrix);
-            j++;
-        }
-        i++;
-    }
-    /*
-    for (int m = 0; m < 4; m++)
-    {
-        for (int n = 0; n < 4; n++)
-        {
-            printf("%f ", inv[m][n]);
-        }
-        printf("\n\n");
-    }
-    */
     // transpose inv and divide by determinant
     inv_t = transpose(inv, size);
     inverse = scalar_product_matrix(inv_t, 1.0 / det_4x4(matrix));
-    //printf("determinant: %f\n", det_4x4(matrix));
-    // print the inverse matrix for debugging
-    /*printf("Inverse Matrix:\n");
-    for (int m = 0; m < 4; m++)
-    {
-        for (int n = 0; n < 4; n++)
-        {
-            printf("%f ", inv_t[m][n]);
-        }
-        printf("\n");
-    }
-    printf("\n");
-    */
-    //printf("determinant: %f\n", det_4x4(matrix));
     free(inv);
     free(inv_t);
     // print the inverse matrix for debugging
     return (inverse);
 }
+
 // I need a function to calculate determinante of 4x4 matrix using lapce expansion
 double  det_4x4(double **matrix)
 {
@@ -144,7 +157,14 @@ double **allocate_4x4_matrix()
     return matrix;
 }
 
-// i need a function scales a matrix by a scalar
+// i need a function that scales a matrix by a scalar in x and y direction and z direction
+/*void scaling(t_tuple *P, double x, double y, double z)
+{
+    P.x = x * P.x;
+    P.y = y * P.y;
+    P.z = z * P.z;
+}*/
+ 
 double **scalar_product_matrix(double **matrix, double scalar)
 {
     int size = 4;

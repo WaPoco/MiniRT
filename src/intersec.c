@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   intersec.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/10 21:55:38 by vpogorel          #+#    #+#             */
+/*   Updated: 2025/12/10 21:55:40 by vpogorel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../Include/miniRT.h"
 t_tuple   *int_section_plane(t_ray ray, t_plane plane)
 {
@@ -13,12 +25,14 @@ t_tuple   *int_section_plane(t_ray ray, t_plane plane)
         t_tuple p_to_o;
         vector_diff(&p_to_o, plane.point, ray.origin);
         double t = scalar_product(p_to_o, plane.normal) / denom;
-        // print denom and t for debugging
-        //printf("Denom: %f, t: %f\n", denom, t);
-        if (t >= 0)
+        //print denom and t for debugging and scalar product and p_to_o and plane.normal
+        //printf("Denom: %f, t: %f, Scalar Product: %f, p_to_o: (%f, %f, %f), plane.normal: (%f, %f, %f)\n", denom, t, scalar_product(p_to_o, plane.normal), p_to_o.x, p_to_o.y, p_to_o.z, plane.normal.x, plane.normal.y, plane.normal.z);
+        if (t > 0)
         {
             d[0] = t;
             get_points(P, ray.direction, ray.origin, d);
+            // print intersection point for debugging
+            // printf("Plane Intersection Point: (%f, %f, %f)\n", P[0].x, P[0].y, P[0].z);
         }
     }
     return P;
@@ -67,7 +81,7 @@ void    get_points(t_tuple *P, t_tuple ray, t_tuple o_ray, double d[])
     t_tuple result;
     int     i = 0;
 
-    while (i < 2 && d[i] > 0)
+    while (i < 2)
     {
         vector_scale(&scale_vec, ray, d[i]);
         vector_add(&result, o_ray, scale_vec);

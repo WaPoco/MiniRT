@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/10 21:55:50 by vpogorel          #+#    #+#             */
+/*   Updated: 2025/12/10 21:55:52 by vpogorel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../Include/miniRT.h"
 
 int	close_window(t_data *data)
@@ -37,6 +49,8 @@ static int	render_next_frame(t_data *data)
 			p.type = 1;
 */
 			ray = ray_for_pixel(camera, i, k);
+			//print ray direction and origin for debugging
+			//printf("Ray for pixel (%d, %d): Direction (%f, %f, %f), Origin (%f, %f, %f)\n", i, k, ray.direction.x, ray.direction.y, ray.direction.z, ray.origin.x, ray.origin.y, ray.origin.z);
 			create_img(data, ray, i, k);
 			k++;
 		}
@@ -45,35 +59,6 @@ static int	render_next_frame(t_data *data)
 	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 	return (0);
 }
-/*(data->t[2]) % 256
-static void	show_options(t_data *data, int args0, char **args)
-{
-	if ((args0 == 2) && (ft_strlen(args[1]) == 1) 
-		&& (args[1][0] == '1' || args[1][0] == '2' || args[1][0] == '3'))
-	{
-		data->option = args[1][0];
-		if (data->option == '1')
-		{
-			data->c.realpart = 0;
-			data->c.imagpart = 0;
-		}
-		else if (data->option == '2')
-		{
-			data->c.realpart = 0.5;
-			data->c.imagpart = 0.55;
-		}
-		else if (data->option == '3')
-		{
-			data->c.realpart = 0;
-			data->c.imagpart = -1;
-		}
-		return ;
-	}
-	ft_printf("Choose a fractal!\n1: Mandelbrot \n");
-	ft_printf("2: Turtle \n3: Island c=(0,-1)\n");
-	exit(1);
-}
-*/
 
 int	main(int args0, char **args)
 {
@@ -82,12 +67,8 @@ int	main(int args0, char **args)
     (void)args;
 	//error_init_style(&data);
 	//show_options(&data, args0, args);
-	data.win_height = 300;
-	data.win_width = 300;
-	data.real_min = -5;
-	data.real_max = 5;
-	data.imag_max = 5;
-	data.imag_min = -5;
+	data.win_height = 500;
+	data.win_width = 500;
 	data.zoom = 1;
 	//data.t = style(&data);
 	data.fixated = 0;
