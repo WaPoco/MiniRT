@@ -6,7 +6,7 @@
 /*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 10:30:17 by vpogorel          #+#    #+#             */
-/*   Updated: 2025/12/10 21:54:55 by vpogorel         ###   ########.fr       */
+/*   Updated: 2025/12/17 17:24:03 by vpogorel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ double		**transpose(double **matrix, int size);
 double		**inverse_matrix(double **matrix);
 double		**extract_adj(int i, int j, double **matrix);
 double		det_adj(int i, int j, double **matrix);
-double		det_4x4(double **matrix);
+double		det_nxn(double **matrix, int n);
 double		**scalar_product_matrix(double **matrix, double scalar);
 t_tuple		cross_product(t_tuple a, t_tuple b);
 t_color		create_color(double r, double g, double b);
@@ -123,6 +123,7 @@ double		**translation_matrix(double x, double y, double z);
 double		**matrix_mult_4x4(double **a, double **b);
 double		**view_transform(t_tuple from, t_tuple to, t_tuple up);
 void		free_4x4_matrix(double **matrix);
+int			extract_adj_assign(int *n, double **matrix, double **adj);
 void		scaling(t_tuple *P, double x, double y, double z);
 //int			iteration(t_complex z_0, t_complex c, t_data *data);
 

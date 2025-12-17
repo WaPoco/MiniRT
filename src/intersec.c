@@ -6,52 +6,55 @@
 /*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 21:55:38 by vpogorel          #+#    #+#             */
-/*   Updated: 2025/12/10 21:55:40 by vpogorel         ###   ########.fr       */
+/*   Updated: 2025/12/17 18:38:08 by vpogorel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Include/miniRT.h"
-t_tuple   *int_section_plane(t_ray ray, t_plane plane)
+
+t_tuple	*int_section_plane(t_ray ray, t_plane plane)
 {
-    //double result = 0;
-    double d[2] = {0, 0};
-    //t_tuple  origin = {0,0,0,0};
-    t_tuple *P = malloc(sizeof(t_tuple) * 2);
-    P[0].x = 0, P[0].y = 0, P[0].z = 0;
-    P[1].x = 0, P[1].y = 0, P[1].z = 0;
-    double denom = scalar_product(plane.normal, ray.direction);
-    if (fabs(denom) > 1e-6)
-    {
-        t_tuple p_to_o;
-        vector_diff(&p_to_o, plane.point, ray.origin);
-        double t = scalar_product(p_to_o, plane.normal) / denom;
-        //print denom and t for debugging and scalar product and p_to_o and plane.normal
-        //printf("Denom: %f, t: %f, Scalar Product: %f, p_to_o: (%f, %f, %f), plane.normal: (%f, %f, %f)\n", denom, t, scalar_product(p_to_o, plane.normal), p_to_o.x, p_to_o.y, p_to_o.z, plane.normal.x, plane.normal.y, plane.normal.z);
-        if (t > 0)
-        {
-            d[0] = t;
-            get_points(P, ray.direction, ray.origin, d);
-            // print intersection point for debugging
-            // printf("Plane Intersection Point: (%f, %f, %f)\n", P[0].x, P[0].y, P[0].z);
-        }
-    }
-    return P;
+	double	d[2];
+	t_tuple	*p;
+	t_tuple	p_to_o;
+	double	denom;
+	double	t;
+
+	p[0].x = 0;
+	p[0].y = 0;
+	p[0].z = 0;
+	p = malloc(sizeof(t_tuple) * 2);
+	if (!p)
+		return (NULL);
+	d[0] = 0;
+	denom = scalar_product(plane.normal, ray.direction);
+	if (fabs(denom) > 1e-6)
+	{
+		vector_diff(&p_to_o, plane.point, ray.origin);
+		t = scalar_product(p_to_o, plane.normal) / denom;
+		if (t > 0)
+		{
+			d[0] = t;
+			get_points(p, ray.direction, ray.origin, d);
+		}
+	}
+	return (d[1] = 0, p);
 }
 
 t_tuple *int_section_sphere(t_tuple ray, t_tuple o_ray, t_tuple c_sphere, double r_sphere)
 {
-    double result = 0;
-    double d[2] = {0, 0};
-    t_tuple  origin = {0,0,0,0};
-    t_tuple *dis_origins = malloc(sizeof(t_tuple));
-    t_tuple *neg_c_sphere = malloc(sizeof(t_tuple));
-    t_tuple *P = malloc(sizeof(t_tuple) * 2);
-    P[0].x = 0, P[0].y = 0, P[0].z = 0;
-    P[1].x = 0, P[1].y = 0, P[1].z = 0;
-    double result_scalar = 0;
-    double sq_euclid_dis_ray = sq_euclidean_distance(ray, origin);
-    double discriminant = 0;
-    double tmp=0;
+	double result = 0;
+	double d[2] = {0, 0};
+	t_tuple  origin = {0,0,0,0};
+	t_tuple *dis_origins = malloc(sizeof(t_tuple));
+	t_tuple *neg_c_sphere = malloc(sizeof(t_tuple));
+	t_tuple *P = malloc(sizeof(t_tuple) * 2);
+	P[0].x = 0, P[0].y = 0, P[0].z = 0;
+	P[1].x = 0, P[1].y = 0, P[1].z = 0;
+	double result_scalar = 0;
+	double sq_euclid_dis_ray = sq_euclidean_distance(ray, origin);
+	double discriminant = 0;
+	double tmp=0;
 
     vector_neg(neg_c_sphere, c_sphere);
     vector_add(dis_origins, o_ray, *neg_c_sphere);

@@ -6,7 +6,7 @@
 /*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 21:56:05 by vpogorel          #+#    #+#             */
-/*   Updated: 2025/12/15 17:32:07 by vpogorel         ###   ########.fr       */
+/*   Updated: 2025/12/17 18:19:53 by vpogorel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ double	sq_euclidean_distance(t_tuple a, t_tuple b)
 		+ (a.z - b.z) * (a.z - b.z));
 }
 
-// Vector addition: result = a + b
 void	vector_add(t_tuple *result, t_tuple a, t_tuple b)
 {
 	(*result).x = a.x + b.x;
@@ -67,7 +66,6 @@ void	vector_diff(t_tuple *result, t_tuple a, t_tuple b)
 	(*result).z = a.z - b.z;
 }
 
-// Vector negation: result = -a
 void	vector_neg(t_tuple *result, t_tuple a)
 {
 	(*result).x = -a.x;
