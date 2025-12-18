@@ -6,7 +6,7 @@
 /*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 21:55:09 by vpogorel          #+#    #+#             */
-/*   Updated: 2025/12/10 21:55:11 by vpogorel         ###   ########.fr       */
+/*   Updated: 2025/12/18 21:35:38 by vpogorel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,34 +30,40 @@ color_eff = color*I
 return color_eff
 */
 
-t_color create_color(double r, double g, double b)
+t_color	create_color(double r, double g, double b)
 {
-    return (t_color){r, g, b};
+	return ((t_color){r, g, b});
 }
 
-t_color color_scale(t_color c, double s)
+t_color	color_scale(t_color c, double s)
 {
-    return (t_color){c.r * s, c.g * s, c.b * s};
+	return ((t_color){c.r * s, c.g * s, c.b * s});
 }
 
-t_color color_add(t_color a, t_color b)
+t_color	color_add(t_color a, t_color b)
 {
-    return (t_color){a.r + b.r, a.g + b.g, a.b + b.b};
+	return ((t_color){a.r + b.r, a.g + b.g, a.b + b.b});
 }
 
-double clamp(double x)
+double	clamp(double x)
 {
-    if (x < 0) return 0;
-    if (x > 1) return 1;
-    return x;
+	if (x < 0)
+		return (0);
+	if (x > 1)
+		return (1);
+	return (x);
 }
 
-int color_to_trgb(t_color c)
+int	color_to_trgb(t_color c)
 {
-    int r = (int)(clamp(c.r) * 255);
-    int g = (int)(clamp(c.g) * 255);
-    int b = (int)(clamp(c.b) * 255);
-    return create_trgb(0, r, g, b);
+	int	r;
+	int	g;
+	int	b;
+
+	r = (int)(clamp(c.r) * 255);
+	g = (int)(clamp(c.g) * 255);
+	b = (int)(clamp(c.b) * 255);
+	return (create_trgb(0, r, g, b));
 }
 
 double    lighting(t_tuple ray, t_tuple p_light, t_tuple point, t_tuple p_eye, t_tuple normalv)

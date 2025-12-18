@@ -1,27 +1,39 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   camera.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/18 21:50:32 by vpogorel          #+#    #+#             */
+/*   Updated: 2025/12/18 22:02:34 by vpogorel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../Include/miniRT.h"
 
-t_ray ray_for_pixel(t_camera camera, int px, int py)
+t_ray	ray_for_pixel(t_camera camera, int px, int py)
 {
-    double xoffset = (px + 0.5) * camera.pixel_size;
-    double yoffset = (py + 0.5) * camera.pixel_size;
-    double world_x = camera.half_width - xoffset;
-    double world_y = camera.half_height - yoffset;
-    // print world_x and world_y
-    //printf("World Coordinates (%d, %d): (%f, %f)\n", px, py, world_x, world_y);
-    t_tuple pixel = matrix_mult(inverse_matrix(camera.transform), create_tuple(world_x, world_y, -1));
-    // print the pixel coordinates for debugging
-    // printf("Pixel Coordinates (%d, %d): (%f, %f, %f)\n", px, py, pixel.x, pixel.y, pixel.z);
-    t_tuple origin = matrix_mult(inverse_matrix(camera.transform), create_tuple(0, 0, 0));
-    // print the origin coordinates for debugging
-    //printf("Origin Coordinates: (%f, %f, %f)\n", origin.x, origin.y, origin.z);
-    t_tuple direction;
-    vector_diff(&direction, pixel, origin);
-    vector_norm(&direction, direction);
+	double	xoffset;
+	double	yoffset;
+	double	world_x;
+	double	world_y;
+	t_tuple	pixel;
+	t_tuple	origin;
+	t_tuple	direction;
+	t_ray	r;
 
-    t_ray r;
-    r.origin = origin;
-    r.direction = direction;
-    return r;
+	xoffset = (px + 0.5) * camera.pixel_size;
+	yoffset = (py + 0.5) * camera.pixel_size;
+	world_x = camera.half_width - xoffset;
+	world_y = camera.half_height - yoffset;
+	pixel = matrix_mult(inverse_matrix(camera.transform), create_tuple(world_x, world_y, -1));
+	origin = matrix_mult(inverse_matrix(camera.transform), create_tuple(0, 0, 0));
+	vector_diff(&direction, pixel, origin);
+	vector_norm(&direction, direction);
+	r.origin = origin;
+	r.direction = direction;
+	return (r);
 }
 
 double **view_transform(t_tuple from, t_tuple to, t_tuple up)
