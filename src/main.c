@@ -6,7 +6,7 @@
 /*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 21:55:50 by vpogorel          #+#    #+#             */
-/*   Updated: 2025/12/10 21:55:52 by vpogorel         ###   ########.fr       */
+/*   Updated: 2025/12/28 18:01:51 by vpogorel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,37 +21,47 @@ int	close_window(t_data *data)
 	return (0);
 }
 
+static t_color	background_color(void)
+{
+	t_color	c;
+
+	c.r = 0.0;
+	c.g = 0.0;
+	c.b = 0.0;
+	return (c);
+}
+
+static t_color	hit_color(t_world *world, t_ray *ray, t_hit *hit)
+{
+	t_tuple	p_eye;
+
+	vector_scale(&p_eye, ray->direction, -1);
+	hit->obj->mat.color = lighting(world, ray, hit, p_eye);
+	return (hit->obj->mat.color);
+}
+
 static int	render_next_frame(t_data *data)
 {
-	//long double	d[2];
 	int			i;
 	int			k;
-	//t_tuple	p;
-	t_camera camera;
-	t_ray	ray;
-	//d[0] = (data->real_max - data->real_min) / data->win_width;
-	//d[1] = (data->imag_max - data->imag_min) / data->win_height;
+	t_hit		hit;
+	t_color		color;
+	t_ray		ray;
 
 	i = 0;
-	camera.hsize = data->win_width;
-	camera.vsize = data->win_height;
-	camera.field_of_view = 3.1415 / 2.0;
-	camera.aspect = camera.hsize / camera.vsize;
-	ajust_camera(&camera);
+	ajust_camera(data);
 	while (i < data->win_width)
 	{
 		k = 0;
 		while (k < data->win_height)
 		{
-/*			p.x = data->real_min + camera.pixel_size * i;
-			p.y = data->imag_max - camera.pixel_size * k;
-			p.z = -1;
-			p.type = 1;
-*/
-			ray = ray_for_pixel(camera, i, k);
-			//print ray direction and origin for debugging
-			//printf("Ray for pixel (%d, %d): Direction (%f, %f, %f), Origin (%f, %f, %f)\n", i, k, ray.direction.x, ray.direction.y, ray.direction.z, ray.origin.x, ray.origin.y, ray.origin.z);
-			create_img(data, ray, i, k);
+			ray = ray_for_pixel(data->world->camera, i, k);
+			if (intersect_world(data->world, ray, &hit))
+				color = hit_color(data->world, &ray, &hit);
+			else
+				color = background_color();
+			my_mlx_pixel_put(data, i, k, color_to_trgb(color));
+			//create_img(data, ray, i, k);
 			k++;
 		}
 		i++;
@@ -63,15 +73,11 @@ static int	render_next_frame(t_data *data)
 int	main(int args0, char **args)
 {
 	t_data	data;
-    (void)args0;
-    (void)args;
-	//error_init_style(&data);
-	//show_options(&data, args0, args);
+
+	(void)args0;
+	(void)args;
 	data.win_height = 500;
 	data.win_width = 500;
-	data.zoom = 1;
-	//data.t = style(&data);
-	data.fixated = 0;
 	data.mlx = mlx_init();
 	data.win = mlx_new_window(data.mlx, data.win_width, data.win_height,
 			"MiniRT");

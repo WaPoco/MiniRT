@@ -6,7 +6,7 @@
 /*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 21:55:09 by vpogorel          #+#    #+#             */
-/*   Updated: 2025/12/18 21:35:38 by vpogorel         ###   ########.fr       */
+/*   Updated: 2025/12/28 18:24:38 by vpogorel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,50 +66,40 @@ int	color_to_trgb(t_color c)
 	return (create_trgb(0, r, g, b));
 }
 
-double    lighting(t_tuple ray, t_tuple p_light, t_tuple point, t_tuple p_eye, t_tuple normalv)
+t_color	lighting(t_world *world, t_ray *ray, t_hit *hit, t_tuple p_eye)
 {
-    (void)ray;
-    double Intensity = 1.0;
-    double k_ambient = 0.1;
-    double k_diffuse = 0.9;
-    double k_specular = 0.9;
-    double shininess = 20000.0;
+	double	scalar[2];
+	double	factor;
+	t_color	ambient;
+	t_color	diffuse;
+	t_color specular;
+	t_tuple	L;
+	t_tuple	normal;
+	t_tuple	R;
+	t_tuple	V;
 
-    double scalar_p1;
-    double scalar_p2;
-    t_tuple *L = malloc(sizeof(t_tuple));
-    t_tuple *normal = malloc(sizeof(t_tuple));
-    t_tuple *R = malloc(sizeof(t_tuple));
-    t_tuple *V = malloc(sizeof(t_tuple));
-
-    t_color base_color = create_color(1.0, 0.4, 1.0);
-    vector_diff(L, p_light, point); 
-    vector_norm(L, *L);
-    vector_norm(normal, normalv);
-    t_color ambient = color_scale(base_color, k_ambient * Intensity);
-    t_color diffuse = create_color(0,0,0);
-    scalar_p1 = scalar_product(*L, *normal);
-    if (scalar_p1 > 0)
-        diffuse = color_scale(base_color, k_diffuse * Intensity * scalar_p1);
-    vector_diff(V, p_eye, point); 
-    vector_norm(V, *V);
-    t_color specular = create_color(0,0,0);
-    if (scalar_p1 > 0)
-    {
-        vector_scale(L, *L, -1);
-        vector_reflexion(R, *L, *normal);
-        vector_norm(R, *R);
-        scalar_p2 = scalar_product(*R, *V);
-        if (scalar_p2 > 0)
-        {
-            double factor = pow(scalar_p2 , shininess);
-            specular = color_scale(create_color(1,1,1), k_specular * Intensity * factor);
-        }
-    }
-    free(L);
-    free(normal);
-    free(R);
-    free(V);
-    t_color result = color_add(ambient, color_add(diffuse, specular));
-    return (color_to_trgb(result));
+	vector_diff(&L, world->light.position, hit->point);
+	vector_norm(&L, L);
+	vector_norm(&normal, hit->normal);
+	ambient = color_scale(hit->obj->mat.color, hit->obj->mat.ambient * world->light.intensity);
+	diffuse = create_color(0, 0, 0);
+	scalar[0] = scalar_product(L, normal);
+	if (scalar[0] > 0)
+		diffuse = color_scale(hit->obj->mat.color, hit->obj->mat.diffuse * world->light.intensity * scalar[1]);
+	vector_diff(&V, p_eye, hit->point);
+	vector_norm(&V, V);
+	specular = create_color(0, 0, 0);
+	if (scalar[0] > 0)
+	{
+		vector_scale(&L, L, -1);
+		vector_reflexion(&R, L, normal);
+		vector_norm(&R, R);
+		scalar[1] = scalar_product(R, V);
+		if (scalar[1] > 0)
+		{
+			factor = pow(scalar[1], hit->obj->mat.shininess);
+			specular = color_scale(create_color(1, 1, 1), hit->obj->mat.specular * world->light.intensity * factor);
+		}
+	}
+	return (color_add(ambient, color_add(diffuse, specular)));
 }

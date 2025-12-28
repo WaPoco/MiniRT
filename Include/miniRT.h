@@ -6,7 +6,7 @@
 /*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 10:30:17 by vpogorel          #+#    #+#             */
-/*   Updated: 2025/12/17 17:24:03 by vpogorel         ###   ########.fr       */
+/*   Updated: 2025/12/26 00:15:24 by vpogorel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,54 @@
 # include <stdio.h>
 # include <math.h>
 
+typedef struct s_hit
+{
+	double		t[2];
+	t_tuple		point;
+	t_tuple		normal;
+	t_object	*obj;
+}	t_hit;
+
+typedef enum e_obj_type
+{
+	OBJ_SPHERE,
+	OBJ_PLANE,
+	OBJ_CYLINDER
+}	t_obj_type;
+
+typedef struct s_material
+{
+	t_color	color;
+	double	ambient;
+	double	diffuse;
+	double	specular;
+	double	shininess;
+}	t_material;
+
+typedef struct s_object
+{
+	t_obj_type			type;
+	t_material			mat;
+	void				*shape;
+	struct s_object		*next;
+}	t_object;
+
+typedef struct s_light
+{
+	t_tuple	position;
+	double	intensity;
+	t_color	color;
+}	t_light;
+
+typedef struct s_world
+{
+	t_camera	camera;
+	t_light		light;
+	t_object	*objects;
+	double		ambient_ratio;
+	t_color		ambient_color;
+}	t_world;
+
 typedef struct a_camera
 {
 	double	vsize;
@@ -27,6 +75,10 @@ typedef struct a_camera
 	double	half_width;
 	double	half_height;
 	double	aspect;
+	t_tuple	position;
+	t_tuple	from;
+	t_tuple	to;
+	t_tuple	up;
 	double	**transform;
 }	t_camera;
 
@@ -61,6 +113,15 @@ typedef struct plane
 	double	**transfrom;
 }	t_plane;
 
+typedef struct s_cylinder
+{
+	t_tuple	center;
+	t_tuple	axis;
+	double	radius;
+	double	height;
+	double	**transform;
+}	t_cylinder;
+
 typedef struct s_ray
 {
 	t_tuple	origin;
@@ -78,20 +139,19 @@ typedef struct s_data
 	int			endian;
 	int			win_width;
 	int			win_height;
-	t_tuple		c;
+	t_world		*world;
 }	t_data;
 
 int			create_trgb(int t, int r, int g, int b);
 int			close_window(t_data *data);
-//void		click_button(int x, int y, int button, t_data *data);
 //int			mouse_click(int button, int x, int y, t_data *data);
 //int			key_press(int key, t_data *data);
 int			create_trgb(int t, int r, int g, int b);
 void		my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void		create_img(t_data *data, t_ray ray, int x, int y);
 double		scalar_product(t_tuple a, t_tuple b);
-t_tuple		*int_section_sphere(t_tuple ray, t_tuple o_ray, t_tuple c_sphere, double r_sphere);
-t_tuple		*int_section_plane(t_ray ray, t_plane plane);
+int			intersect_sphere(t_sphere *sphere, t_ray ray, t_hit *out, t_object *obj);
+int			intersect_plane(t_plane *plane, t_ray ray, t_hit *out, t_object *obj);
 double		sq_euclidean_distance(t_tuple a, t_tuple b);
 double		euclidean_distance(t_tuple a, t_tuple b);
 void		vector_add(t_tuple *result, t_tuple a, t_tuple b);
@@ -101,8 +161,8 @@ void		vector_reflexion(t_tuple *result, t_tuple ray, t_tuple normal);
 void		vector_scale(t_tuple *result, t_tuple a, double factor);
 void		vector_norm(t_tuple *result, t_tuple a);
 void		get_points(t_tuple *P, t_tuple ray, t_tuple o_ray, double d[]);
-double		lighting(t_tuple ray, t_tuple p_light, t_tuple point, t_tuple p_eye, t_tuple normalv);
-void		ajust_camera(t_camera *camera);
+t_color		lighting(t_world *world, t_ray *ray, t_hit *hit, t_tuple p_eye);
+void		ajust_camera(t_data *data);
 t_ray		ray_for_pixel(t_camera camera, int px, int py);
 t_tuple		create_tuple(double x, double y, double z);
 t_tuple		matrix_mult(double **matrix, t_tuple point);
@@ -125,6 +185,6 @@ double		**view_transform(t_tuple from, t_tuple to, t_tuple up);
 void		free_4x4_matrix(double **matrix);
 int			extract_adj_assign(int *n, double **matrix, double **adj);
 void		scaling(t_tuple *P, double x, double y, double z);
-//int			iteration(t_complex z_0, t_complex c, t_data *data);
+int			intersect_world(t_world *w, t_ray ray, t_hit *out);
 
 #endif
