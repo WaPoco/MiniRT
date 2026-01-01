@@ -6,29 +6,11 @@
 /*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 21:55:09 by vpogorel          #+#    #+#             */
-/*   Updated: 2025/12/28 18:24:38 by vpogorel         ###   ########.fr       */
+/*   Updated: 2025/12/30 18:19:52 by vpogorel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Include/miniRT.h"
-
-/*
-Add the lighting(material, light, point, eyev, normalv) function
-
-we need to create new types like object and material with ambient, diffuse, specular and shininess
-We need to implement the Phong reflection model formular to create the 3d view.
-L   position of light
-N   normale of the surface
-R   direction of the reflected light (use vector_ref())
-V   position of viewer
-I   Intensity of light
-n   shininess
-
-I = I*k_amb +I*k_diffuse L*N +I*k_specular * (R * V)^n
-
-color_eff = color*I 
-return color_eff
-*/
 
 t_color	create_color(double r, double g, double b)
 {
@@ -68,7 +50,8 @@ int	color_to_trgb(t_color c)
 
 t_color	lighting(t_world *world, t_ray *ray, t_hit *hit, t_tuple p_eye)
 {
-	double	scalar[2];
+	(void)ray;
+	double	scalar[2] = {0, 0};
 	double	factor;
 	t_color	ambient;
 	t_color	diffuse;
@@ -81,7 +64,7 @@ t_color	lighting(t_world *world, t_ray *ray, t_hit *hit, t_tuple p_eye)
 	vector_diff(&L, world->light.position, hit->point);
 	vector_norm(&L, L);
 	vector_norm(&normal, hit->normal);
-	ambient = color_scale(hit->obj->mat.color, hit->obj->mat.ambient * world->light.intensity);
+	ambient = color_scale(hit->obj->mat.color, world->ambient.ratio * world->light.intensity);
 	diffuse = create_color(0, 0, 0);
 	scalar[0] = scalar_product(L, normal);
 	if (scalar[0] > 0)

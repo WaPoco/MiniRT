@@ -6,7 +6,7 @@
 /*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 18:23:19 by vpogorel          #+#    #+#             */
-/*   Updated: 2025/12/28 18:24:09 by vpogorel         ###   ########.fr       */
+/*   Updated: 2025/12/30 16:04:59 by vpogorel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,4 @@ t_tuple	create_tuple(double x, double y, double z)
 	tuple.z = z;
 	tuple.type = 1;
 	return (tuple);
-}
-
-t_tuple	cross_product(t_tuple a, t_tuple b)
-{
-	t_tuple	result;
-
-	result.x = a.y * b.z - a.z * b.y;
-	result.y = a.z * b.x - a.x * b.z;
-	result.z = a.x * b.y - a.y * b.x;
-	return (result);
 }

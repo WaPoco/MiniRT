@@ -1,56 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   vector_op3.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/28 18:17:16 by vpogorel          #+#    #+#             */
-/*   Updated: 2025/12/29 15:54:33 by vpogorel         ###   ########.fr       */
+/*   Created: 2025/12/30 16:04:18 by vpogorel          #+#    #+#             */
+/*   Updated: 2025/12/30 16:07:46 by vpogorel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Include/miniRT.h"
 
-void	free_nxn_matrix(double **matrix, int n)
+t_tuple	cross_product(t_tuple a, t_tuple b)
 {
-	int	i;
+	t_tuple	result;
+
+	result.x = a.y * b.z - a.z * b.y;
+	result.y = a.z * b.x - a.x * b.z;
+	result.z = a.x * b.y - a.y * b.x;
+	return (result);
+}
+
+void	get_points(t_tuple *P, t_tuple ray, t_tuple o_ray, double d[])
+{
+	t_tuple	scale_vec;
+	t_tuple	result;
+	int		i;
 
 	i = 0;
-	while (i < n)
+	while (i < 2)
 	{
-		if (matrix[i])
-			free(matrix[i]);
+		vector_scale(&scale_vec, ray, d[i]);
+		vector_add(&result, o_ray, scale_vec);
+		P[i].x = result.x;
+		P[i].y = result.y;
+		P[i].z = result.z;
 		i++;
-	}
-	if (matrix)
-		free(matrix);
-}
-
-void	free_split(char **split)
-{
-	int	i;
-
-	if (!split)
-		return ;
-	i = 0;
-	while (split[i])
-		free(split[i++]);
-	free(split);
-}
-
-void	free_world(t_world *world)
-{
-	t_object	*cur;
-	t_object	*next;
-
-	cur = world->objects;
-	while (cur)
-	{
-		next = cur->next;
-		if (cur->shape)
-			free(cur->shape);
-		free(cur);
-		cur = next;
 	}
 }

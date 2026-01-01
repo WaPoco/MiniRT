@@ -6,7 +6,7 @@
 /*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 21:55:25 by vpogorel          #+#    #+#             */
-/*   Updated: 2025/12/24 15:19:01 by vpogorel         ###   ########.fr       */
+/*   Updated: 2025/12/30 18:29:44 by vpogorel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
 	*(unsigned int *) dst = color;
 }
-
+/*
 void	create_img(t_data *data, t_ray ray, int x, int y)
 {
 	int			color;
@@ -35,7 +35,7 @@ void	create_img(t_data *data, t_ray ray, int x, int y)
 	t_tuple 	*plane_points;
 	t_plane 	plane_xz = {{0,0,0,0}, {0,1,0,0}, {255,255,255}};
 
-	vector_scale(&p_eye, ray.direction, -1)
+	vector_scale(&p_eye, ray.direction, -1);
 	
 	plane_points = int_section_plane(ray, plane_xz);
 	if (fabs(plane_points[0].x) > 0 && fabs(plane_points[0].z) > 0)
@@ -52,3 +52,4 @@ void	create_img(t_data *data, t_ray ray, int x, int y)
 	free(sphere_points);
 	free(plane_points);
 }
+*/

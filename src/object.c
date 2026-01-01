@@ -6,11 +6,11 @@
 /*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/21 22:29:03 by vpogorel          #+#    #+#             */
-/*   Updated: 2025/12/21 22:29:30 by vpogorel         ###   ########.fr       */
+/*   Updated: 2025/12/31 15:43:16 by vpogorel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRT.h"
+#include "../Include/miniRT.h"
 
 t_object	*object_new(t_obj_type type, void *shape, t_color color)
 {

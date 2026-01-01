@@ -6,7 +6,7 @@
 /*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 21:55:56 by vpogorel          #+#    #+#             */
-/*   Updated: 2025/12/28 18:17:40 by vpogorel         ###   ########.fr       */
+/*   Updated: 2025/12/30 18:46:44 by vpogorel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ double	**matrix_mult_4x4(double **a, double **b)
 	int		i[3];
 	double	**result;
 
+	size = 4;
 	result = malloc(size * sizeof(double *));
 	if (!result)
 		return (NULL);
 	i[0] = -1;
-	size = 4;
 	while (++i[0] < size)
 	{
 		result[i[0]] = malloc(size * sizeof(double));
@@ -73,7 +73,7 @@ double	**transpose(double **matrix, int size)
 	{
 		transposed[i] = malloc(size * sizeof(double));
 		if (!transposed[i])
-			return (free_4x4_matrix(transposed), NULL);
+			return (free_nxn_matrix(transposed, 4), NULL);
 		j = 0;
 		while (j < size)
 		{

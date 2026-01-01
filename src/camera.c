@@ -6,7 +6,7 @@
 /*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 21:50:32 by vpogorel          #+#    #+#             */
-/*   Updated: 2025/12/26 00:19:29 by vpogorel         ###   ########.fr       */
+/*   Updated: 2025/12/30 18:22:22 by vpogorel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_ray	ray_for_pixel(t_camera camera, int px, int py)
 	vector_norm(&direction, direction);
 	r.origin = origin;
 	r.direction = direction;
-	free_matrix(inv);
+	free_nxn_matrix(inv, 4);
 	return (r);
 }
 
@@ -79,8 +79,8 @@ double	**view_transform(t_tuple from, t_tuple to, t_tuple up)
 	set_orientation_matrix(orientation, left, true_up, forward);
 	translation = translation_matrix(-from.x, -from.y, -from.z);
 	result = matrix_mult_4x4(orientation, translation);
-	free_4x4_matrix(orientation);
-	free_4x4_matrix(translation);
+	free_nxn_matrix(orientation, 4);
+	free_nxn_matrix(translation, 4);
 	return (result);
 }
 
