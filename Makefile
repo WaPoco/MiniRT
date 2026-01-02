@@ -16,7 +16,8 @@ SRCS = src/parser.c src/color.c src/matrix_op.c src/init.c \
        src/main.c src/intersec.c src/object.c src/vector_op3.c \
        src/vector_op2.c src/render.c src/vector_op1.c \
        src/parse_tools.c src/det.c get_next_line/get_next_line.c \
-	   get_next_line/get_next_line_utils.c
+	   get_next_line/get_next_line_utils.c src/intersect_cy.c \
+	   src/intersect_helper.c
 
 OBJS = $(SRCS:.c=.o)
 

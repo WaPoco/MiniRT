@@ -6,7 +6,7 @@
 /*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 15:35:54 by vpogorel          #+#    #+#             */
-/*   Updated: 2025/12/30 15:39:42 by vpogorel         ###   ########.fr       */
+/*   Updated: 2026/01/02 15:59:17 by vpogorel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	parse_cylinder(char **t, t_world *scene)
 	t_object	*obj;
 	t_tuple		center;
 	t_tuple		axis;
+	t_tuple		tmp;
 	double		diameter;
 	double		height;
 	t_color		color;
@@ -42,6 +43,9 @@ int	parse_cylinder(char **t, t_world *scene)
 	cylinder->radius = diameter / 2.0;
 	cylinder->height = height;
 	cylinder->color = color;
+	vector_scale(&tmp, axis, height / 2);
+	vector_diff(&cylinder->bottom, center, tmp);
+	vector_add(&cylinder->top, center, tmp);
 	obj = object_new(OBJ_CYLINDER, cylinder, color);
 	if (scene->object_count > 0)
 		obj->next = scene->objects;

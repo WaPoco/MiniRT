@@ -6,7 +6,7 @@
 /*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 10:30:17 by vpogorel          #+#    #+#             */
-/*   Updated: 2025/12/31 16:28:05 by vpogorel         ###   ########.fr       */
+/*   Updated: 2026/01/02 16:22:48 by vpogorel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,8 @@ typedef struct plane
 typedef struct s_cylinder
 {
 	t_tuple	center;
+	t_tuple	bottom;
+	t_tuple	top;
 	t_tuple	axis;
 	t_color	color;
 	double	radius;
@@ -199,7 +201,15 @@ int			intersect_cylinder(t_cylinder *cylinder, t_ray ray,
 int			intersect_world(t_world *w, t_ray ray, t_hit *out);
 void		swap_min(double *a, double *b);
 int			intersect_object(t_object *obj, t_ray ray, t_hit *out);
-
+int			discriminant(t_tuple d_perp, t_tuple m_perp,
+				double *ray_a, t_hit *out);
+t_tuple		perp_comp(t_tuple vec, double d, t_tuple axis);
+int			leteral_surface(t_ray ray, t_hit *out,
+				double *ray_a, t_tuple m);
+int			cap_up(t_ray ray, t_hit *out,
+				double *ray_a);
+int			cap_down(t_ray ray, t_hit *out,
+				double *ray_a);
 
 // camera functions
 void		ajust_camera(t_data *data);
