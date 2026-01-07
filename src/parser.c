@@ -6,7 +6,7 @@
 /*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 11:44:47 by vpogorel          #+#    #+#             */
-/*   Updated: 2025/12/31 11:50:30 by vpogorel         ###   ########.fr       */
+/*   Updated: 2026/01/04 10:22:05 by vpogorel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,7 @@ int	parse_scene(const char *filename, t_world *scene)
 int	parse_line(char *line, t_world *scene)
 {
 	char	**tokens;
-	//	*tmp;
 
-	//tmp = ft_strtrim(line, " \t\n");
-	//free(line);
-	//line = tmp;
 	tokens = ft_split(line, ' ');
 	if (!tokens)
 		return (0);

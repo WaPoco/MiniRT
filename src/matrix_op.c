@@ -6,7 +6,7 @@
 /*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 21:55:56 by vpogorel          #+#    #+#             */
-/*   Updated: 2025/12/30 18:46:44 by vpogorel         ###   ########.fr       */
+/*   Updated: 2026/01/03 19:39:07 by vpogorel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,15 @@ double	**inverse_matrix(double **matrix)
 	size = 4;
 	i[0] = -1;
 	i[1] = -1;
+	/*
+		for(int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			printf("m=%f ", matrix[i][j]);
+		}
+		printf("\n");
+	}*/
 	inv = malloc(size * sizeof(double *));
 	if (!inv)
 		return (NULL);
@@ -110,6 +119,17 @@ double	**inverse_matrix(double **matrix)
 				* det_adj(i[0], i[1], matrix);
 	}
 	inv_t = transpose(inv, size);
+	/*for(int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			printf("inv=%f ", inv_t[i][j]);
+		}
+		printf("\n");
+	}*/
+	//printf("det=%f\n", det_4x4(matrix));
+	if (fabs(det_4x4(matrix)) < 1e-6)
+		printf("Determinate ist 0!");
 	inverse = scalar_product_matrix(inv_t, 1.0 / det_4x4(matrix));
 	return (free_nxn_matrix(inv, size), free_nxn_matrix(inv_t, size), inverse);
 }

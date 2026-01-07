@@ -6,7 +6,7 @@
 /*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 21:50:32 by vpogorel          #+#    #+#             */
-/*   Updated: 2025/12/30 18:22:22 by vpogorel         ###   ########.fr       */
+/*   Updated: 2026/01/07 20:06:07 by vpogorel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,44 @@ t_ray	ray_for_pixel(t_camera camera, int px, int py)
 	t_ray	r;
 	double	**inv;
 
+	//printf("matrix\n");
+	/*for(int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			printf("%f ", camera.transform[i][j]);
+		}
+		printf("\n");
+	}
+	printf("\npx=%d py=%d\n", px, py);
+	printf("Inv matrix\n");
+	*/
 	inv = inverse_matrix(camera.transform);
+	/*for(int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			printf("%f ", inv[i][j]);
+		}
+		printf("\n");
+	}
+	printf("\n");
+	double **I = matrix_mult_4x4(camera.transform,  inv);
+	for(int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			printf("%f ", I[i][j]);
+		}
+		printf("\n");
+	}*/
 	xoffset = (px + 0.5) * camera.pixel_size;
 	yoffset = (py + 0.5) * camera.pixel_size;
 	world_x = camera.half_width - xoffset;
 	world_y = camera.half_height - yoffset;
-	pixel = matrix_mult(inv, create_tuple(world_x, world_y, -1));
+	pixel = matrix_mult(inv, create_tuple(world_x, world_y, 1));
 	origin = matrix_mult(inv, create_tuple(0, 0, 0));
+	//printf("origin x=%f y=%f z=%f\n", origin.x, origin.y, origin.z);
 	vector_diff(&direction, pixel, origin);
 	vector_norm(&direction, direction);
 	r.origin = origin;
@@ -50,9 +81,9 @@ void	set_orientation_matrix(double **orientation, t_tuple left,
 	orientation[1][1] = true_up.y;
 	orientation[1][2] = true_up.z;
 	orientation[1][3] = 0;
-	orientation[2][0] = -forward.x;
-	orientation[2][1] = -forward.y;
-	orientation[2][2] = -forward.z;
+	orientation[2][0] = forward.x;
+	orientation[2][1] = forward.y;
+	orientation[2][2] = forward.z;
 	orientation[2][3] = 0;
 	orientation[3][0] = 0;
 	orientation[3][1] = 0;
@@ -114,7 +145,6 @@ void	ajust_camera(t_data *data)
 
 	data->world->camera.hsize = data->win_width;
 	data->world->camera.vsize = data->win_height;
-	data->world->camera.field_of_view = 3.1415 / 2.0;
 	data->world->camera.aspect = data->world->camera.hsize
 		/ data->world->camera.vsize;
 	half_view = tan(data->world->camera.field_of_view / 2);
@@ -133,4 +163,16 @@ void	ajust_camera(t_data *data)
 		/ data->world->camera.hsize;
 	data->world->camera.transform = view_transform(data->world->camera.from,
 			data->world->camera.to, data->world->camera.up);
+	/*printf("up x=%f y=%f z=%f\n", data->world->camera.up.x, data->world->camera.up.y, data->world->camera.up.z);
+	printf("from x=%f y=%f z=%f\n", data->world->camera.from.x, data->world->camera.from.y, data->world->camera.from.z);
+	printf("to x=%f y=%f z=%f\n", data->world->camera.to.x, data->world->camera.to.y, data->world->camera.to.z);
+	//print the matrix
+	for(int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			printf("%f ", data->world->camera.transform[i][j]);
+		}
+		printf("\n");
+	}*/
 }

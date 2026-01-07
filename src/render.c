@@ -6,7 +6,7 @@
 /*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 15:30:01 by vpogorel          #+#    #+#             */
-/*   Updated: 2025/12/31 16:06:22 by vpogorel         ###   ########.fr       */
+/*   Updated: 2026/01/07 19:40:28 by vpogorel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,11 @@ int	render_next_frame(t_data *data)
 		while (k < data->win_height)
 		{
 			ray = ray_for_pixel(data->world->camera, i, k);
+			//printf("direction=(%f, %f, %f) \n", ray.direction.x, ray.direction.y, ray.direction.z);
 			if (intersect_world(data->world, ray, &hit))
 				color = hit_color(data->world, &ray, &hit);
 			else
-				color = background_color();
+				color = data->world->ambient.color;
 			my_mlx_pixel_put(data, i, k, color_to_trgb(color));
 			//create_img(data, ray, i, k);
 			k++;

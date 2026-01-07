@@ -6,7 +6,7 @@
 /*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 15:35:54 by vpogorel          #+#    #+#             */
-/*   Updated: 2026/01/02 15:59:17 by vpogorel         ###   ########.fr       */
+/*   Updated: 2026/01/07 12:12:02 by vpogorel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,10 @@ int	parse_cylinder(char **t, t_world *scene)
 	vector_diff(&cylinder->bottom, center, tmp);
 	vector_add(&cylinder->top, center, tmp);
 	obj = object_new(OBJ_CYLINDER, cylinder, color);
+	obj->mat.color = cylinder->color;
+	obj->mat.diffuse = 0.5;
+	obj->mat.shininess = 100;
+	obj->mat.specular = 0.5;
 	if (scene->object_count > 0)
 		obj->next = scene->objects;
 	scene->objects = obj;

@@ -6,7 +6,7 @@
 /*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 18:05:02 by vpogorel          #+#    #+#             */
-/*   Updated: 2025/12/28 18:16:45 by vpogorel         ###   ########.fr       */
+/*   Updated: 2026/01/03 19:21:30 by vpogorel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,29 @@ double	det_adj(int i, int j, double **matrix)
 {
 	double	**adj;
 	double	det;
+	int		k;
 
 	det = 0;
-	i = 0;
+	k = 0;
 	adj = extract_adj(i, j, matrix);
+	/*printf("adj(%d,%d)\n", i, j);
+		for(int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			printf("%f ", adj[i][j]);
+		}
+		printf("\n");
+	}*/
 	if (!adj)
 		return (0);
 	det = adj[0][0] * (adj[1][1] * adj[2][2] - adj[1][2]
 			* adj[2][1]) - adj[0][1] * (adj[1][0] * adj[2][2] - adj[1][2]
 			* adj[2][0]) + adj[0][2] * (adj[1][0] * adj[2][1] - adj[1][1]
 			* adj[2][0]);
-	while (i < 3)
-		free(adj[i++]);
+	//printf("det=%f\n", det);
+	while (k < 3)
+		free(adj[k++]);
 	free(adj);
 	return (det);
 }
@@ -73,6 +84,7 @@ double	**extract_adj(int i, int j, double **matrix)
 					return (adj);
 		}
 	}
+
 	return (adj);
 }
 

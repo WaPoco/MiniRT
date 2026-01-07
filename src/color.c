@@ -6,7 +6,7 @@
 /*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 21:55:09 by vpogorel          #+#    #+#             */
-/*   Updated: 2025/12/30 18:19:52 by vpogorel         ###   ########.fr       */
+/*   Updated: 2026/01/07 21:30:36 by vpogorel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,24 +61,29 @@ t_color	lighting(t_world *world, t_ray *ray, t_hit *hit, t_tuple p_eye)
 	t_tuple	R;
 	t_tuple	V;
 
-	vector_diff(&L, world->light.position, hit->point);
+	vector_diff(&L, world->light.position, hit->point); 
 	vector_norm(&L, L);
-	vector_norm(&normal, hit->normal);
+	vector_norm(&normal, hit->point);
 	ambient = color_scale(hit->obj->mat.color, world->ambient.ratio * world->light.intensity);
 	diffuse = create_color(0, 0, 0);
+	//printf("nrmale x=%f y=%f z=%f\n", normal.x, normal.y, normal.z);
 	scalar[0] = scalar_product(L, normal);
-	if (scalar[0] > 0)
-		diffuse = color_scale(hit->obj->mat.color, hit->obj->mat.diffuse * world->light.intensity * scalar[1]);
+	//printf("scalar[0] =%f\n", scalar[0]);
+	if (scalar[0] > 1e-6)
+	{
+		diffuse = color_scale(hit->obj->mat.color, hit->obj->mat.diffuse * world->light.intensity * scalar[0]);
+		//printf("diffuse b=%f g=%f r=%f \n", diffuse.b, diffuse.g, diffuse.r);
+	}
 	vector_diff(&V, p_eye, hit->point);
 	vector_norm(&V, V);
 	specular = create_color(0, 0, 0);
-	if (scalar[0] > 0)
+	if (scalar[0] > 1e-6)
 	{
-		vector_scale(&L, L, -1);
+		//vector_scale(&L, L, -1);
 		vector_reflexion(&R, L, normal);
 		vector_norm(&R, R);
 		scalar[1] = scalar_product(R, V);
-		if (scalar[1] > 0)
+		if (scalar[1] > 1e-6)
 		{
 			factor = pow(scalar[1], hit->obj->mat.shininess);
 			specular = color_scale(create_color(1, 1, 1), hit->obj->mat.specular * world->light.intensity * factor);

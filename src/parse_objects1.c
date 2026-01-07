@@ -6,7 +6,7 @@
 /*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 13:27:07 by vpogorel          #+#    #+#             */
-/*   Updated: 2025/12/31 15:45:17 by vpogorel         ###   ########.fr       */
+/*   Updated: 2026/01/06 09:52:48 by vpogorel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,10 @@ int	parse_camera(char **t, t_world *scene)
 		return (0);
 	if (horizontal_view < 0.0 || horizontal_view > 180.0)
 		return (0);
-	camera.position = position;
+	camera.from = position;
 	camera.to = orientation;
-	camera.field_of_view = horizontal_view;
+	camera.up = create_tuple(0, 1, 0);
+	camera.field_of_view = horizontal_view * acos(-1) / 180.0 ;
 	scene->camera = camera;
 	scene->camera.is_set = 1;
 	return (1);
@@ -112,6 +113,9 @@ int	parse_sphere(char **t, t_world *scene)
 	sphere->radius = diameter / 2.0;
 	sphere->color = color;
 	obj = object_new(OBJ_SPHERE, sphere, color);
+	obj->mat.diffuse = 0.9;
+	obj->mat.specular = 0.9;
+	obj->mat.shininess = 2000;
 	if (scene->object_count > 0)
 		obj->next = scene->objects;
 	scene->objects = obj;
