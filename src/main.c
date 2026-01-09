@@ -6,7 +6,7 @@
 /*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 21:55:50 by vpogorel          #+#    #+#             */
-/*   Updated: 2026/01/07 11:25:13 by vpogorel         ###   ########.fr       */
+/*   Updated: 2026/01/09 15:14:00 by vpogorel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,9 @@ t_color	hit_color(t_world *world, t_ray *ray, t_hit *hit)
 {
 	t_tuple	p_eye;
 
-	vector_scale(&p_eye, ray->direction, -1);
+	p_eye = world->camera.position;
 	//printf("before color b=%f g=%f r=%f \n", hit->obj->mat.color.b, hit->obj->mat.color.g, hit->obj->mat.color.r);
+	// *s =world->objects->shape;
 	hit->obj->mat.color = lighting(world, ray, hit, p_eye);
 	//printf("color b=%f g=%f r=%f\n", hit->obj->mat.color.b, hit->obj->mat.color.g, hit->obj->mat.color.r);
 	return (hit->obj->mat.color);

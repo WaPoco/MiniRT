@@ -6,7 +6,7 @@
 /*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 13:27:07 by vpogorel          #+#    #+#             */
-/*   Updated: 2026/01/06 09:52:48 by vpogorel         ###   ########.fr       */
+/*   Updated: 2026/01/09 13:58:40 by vpogorel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,9 @@ int	parse_plane(char **t, t_world *scene)
 	plane->normal = normal;
 	plane->color = color;
 	obj = object_new(OBJ_PLANE, plane, color);
+	obj->mat.diffuse = 0.9;
+	obj->mat.specular = 0.2;
+	obj->mat.shininess = 2000;
 	if (scene->object_count > 0)
 		obj->next = scene->objects;
 	scene->objects = obj;

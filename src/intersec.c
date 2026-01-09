@@ -6,7 +6,7 @@
 /*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 21:55:38 by vpogorel          #+#    #+#             */
-/*   Updated: 2026/01/07 22:50:18 by vpogorel         ###   ########.fr       */
+/*   Updated: 2026/01/09 13:53:03 by vpogorel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,22 @@ int	intersect_cylinder(t_cylinder *cylinder, t_ray ray,
 	double	ray_a[2];
 
 	vector_diff(&m, ray.origin, cylinder->bottom);
+	//printf("\n\naxis=(x,y,z)=(%f,%f,%f)\n\n", cylinder->axis.x, cylinder->axis.y, cylinder->axis.z);
 	ray_a[0] = scalar_product(cylinder->axis, ray.direction);
+	//printf("ray_a[0]=%f\n", ray_a[0]);
 	ray_a[1] = scalar_product(cylinder->axis, m);
+	//printf("ray_a[1]=%f\n", ray_a[1]);
 	out->obj->mat.color = cylinder->color;
 	out->t[0] = 1e30;
-	cap_up(ray, out, ray_a);
 	cap_down(ray, out, ray_a);
-	leteral_surface(ray, out, ray_a, m);
+	cap_up(ray, out, ray_a);
+	lateral_surface(ray, out, ray_a, m);
 	if (out->t[0] < 1e30)
 	{
-		get_points(&out->point, ray.direction, ray.origin, out->t);
+		//t_tuple  cross= cross_product(out->point, cylinder->axis);
+		//printf("cross=%f\n", sqrt(sq_euclidean_distance(cross, create_tuple(0,0,0))));
+		//printf("normale %f, %f ,%f\n", out->normal.x, out->normal.y, out->normal.z);
+		//printf("point %f, %f ,%f\n", out->point.x, out->point.y, out->point.z);
 		return (1);
 	}
 	return (0);
@@ -49,6 +55,8 @@ int	intersect_plane(t_plane *plane, t_ray ray, t_hit *out)
 		{
 			out->t[0] = t;
 			get_points(&out->point, ray.direction, ray.origin, out->t);
+			out->normal = plane->normal;
+			out->obj->mat.color = plane->color;
 			return (1);
 		}
 	}
@@ -85,9 +93,12 @@ int	intersect_sphere(t_sphere *sphere, t_ray ray, t_hit *out)
 		if (t > 1e-6)
 			out->t[1] = t;
 		swap_min(&out->t[0], &out->t[1]);
+		get_points(&out->point, ray.direction, ray.origin, out->t);
+		vector_diff(&out->normal, out->point, sphere->center);
+		vector_norm(&out->normal, out->normal);
 		out->obj->mat.color = sphere->color;
 	}
-	return (get_points(&out->point, ray.direction, ray.origin, out->t), 1);
+	return (1);
 }
 
 int	intersect_object(t_object *obj, t_ray ray, t_hit *out)

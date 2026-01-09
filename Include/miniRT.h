@@ -6,7 +6,7 @@
 /*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 10:30:17 by vpogorel          #+#    #+#             */
-/*   Updated: 2026/01/03 16:28:01 by vpogorel         ###   ########.fr       */
+/*   Updated: 2026/01/09 09:24:07 by vpogorel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,7 +204,7 @@ int			intersect_object(t_object *obj, t_ray ray, t_hit *out);
 int			discriminant(t_tuple d_perp, t_tuple m_perp,
 				double *ray_a, t_hit *out);
 t_tuple		perp_comp(t_tuple vec, double d, t_tuple axis);
-int			leteral_surface(t_ray ray, t_hit *out,
+int			lateral_surface(t_ray ray, t_hit *out,
 				double *ray_a, t_tuple m);
 int			cap_up(t_ray ray, t_hit *out,
 				double *ray_a);

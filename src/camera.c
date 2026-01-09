@@ -6,7 +6,7 @@
 /*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 21:50:32 by vpogorel          #+#    #+#             */
-/*   Updated: 2026/01/07 20:06:07 by vpogorel         ###   ########.fr       */
+/*   Updated: 2026/01/08 10:06:26 by vpogorel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ t_ray	ray_for_pixel(t_camera camera, int px, int py)
 	yoffset = (py + 0.5) * camera.pixel_size;
 	world_x = camera.half_width - xoffset;
 	world_y = camera.half_height - yoffset;
-	pixel = matrix_mult(inv, create_tuple(world_x, world_y, 1));
+	pixel = matrix_mult(inv, create_tuple(world_x, world_y, -1));
 	origin = matrix_mult(inv, create_tuple(0, 0, 0));
 	//printf("origin x=%f y=%f z=%f\n", origin.x, origin.y, origin.z);
 	vector_diff(&direction, pixel, origin);
@@ -81,9 +81,9 @@ void	set_orientation_matrix(double **orientation, t_tuple left,
 	orientation[1][1] = true_up.y;
 	orientation[1][2] = true_up.z;
 	orientation[1][3] = 0;
-	orientation[2][0] = forward.x;
-	orientation[2][1] = forward.y;
-	orientation[2][2] = forward.z;
+	orientation[2][0] = -forward.x;
+	orientation[2][1] = -forward.y;
+	orientation[2][2] = -forward.z;
 	orientation[2][3] = 0;
 	orientation[3][0] = 0;
 	orientation[3][1] = 0;

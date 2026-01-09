@@ -6,7 +6,7 @@
 /*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 15:35:54 by vpogorel          #+#    #+#             */
-/*   Updated: 2026/01/07 12:12:02 by vpogorel         ###   ########.fr       */
+/*   Updated: 2026/01/09 13:06:59 by vpogorel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	parse_cylinder(char **t, t_world *scene)
 	t_object	*obj;
 	t_tuple		center;
 	t_tuple		axis;
-	t_tuple		tmp;
+	//t_tuple		tmp;
 	double		diameter;
 	double		height;
 	t_color		color;
@@ -39,18 +39,20 @@ int	parse_cylinder(char **t, t_world *scene)
 	if (!cylinder)
 		return (0);
 	cylinder->center = center;
+	vector_norm(&axis, axis);
 	cylinder->axis = axis;
 	cylinder->radius = diameter / 2.0;
 	cylinder->height = height;
 	cylinder->color = color;
-	vector_scale(&tmp, axis, height / 2);
-	vector_diff(&cylinder->bottom, center, tmp);
-	vector_add(&cylinder->top, center, tmp);
+	vector_scale(&cylinder->top, axis, height / 2);
+	vector_add(&cylinder->top, center, cylinder->top);
+	vector_scale(&cylinder->bottom, axis, -height / 2);
+	vector_add(&cylinder->bottom, center, cylinder->bottom);
 	obj = object_new(OBJ_CYLINDER, cylinder, color);
 	obj->mat.color = cylinder->color;
-	obj->mat.diffuse = 0.5;
+	obj->mat.diffuse = 0.4;
 	obj->mat.shininess = 100;
-	obj->mat.specular = 0.5;
+	obj->mat.specular = 0.8;
 	if (scene->object_count > 0)
 		obj->next = scene->objects;
 	scene->objects = obj;

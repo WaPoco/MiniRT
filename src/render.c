@@ -6,7 +6,7 @@
 /*   By: vpogorel <vpogorel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 15:30:01 by vpogorel          #+#    #+#             */
-/*   Updated: 2026/01/07 19:40:28 by vpogorel         ###   ########.fr       */
+/*   Updated: 2026/01/09 15:31:06 by vpogorel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,9 @@ int	render_next_frame(t_data *data)
 		i++;
 	}
 	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
+/*	t_sphere *s = data->world->objects->shape;
+	s->center.x += 2.0;
+	s->center.z += 2.0;
+	s->center.y += 2.0;*/
 	return (0);
 }
